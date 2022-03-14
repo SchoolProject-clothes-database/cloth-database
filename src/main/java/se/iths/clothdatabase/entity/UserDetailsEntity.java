@@ -1,4 +1,4 @@
 package se.iths.clothdatabase.entity;
 
-public class CustomerEntity {
+public class UserDetailsEntity {
 }
