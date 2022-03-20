@@ -14,8 +14,7 @@ public class UserEntity {
     private Long id;
     private String username;
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CartEntity> carts = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userDetail_id", nullable = false)
     private UserDetailsEntity userDetail;
@@ -41,9 +40,23 @@ public class UserEntity {
         this.roles = roles;
     }
 
-    public void addCart(CartEntity cart) {
-        carts.add(cart);
-        cart.setUser(this);
+    @JsonIgnore
+    public List<ProductEntity> getProductEntities() {
+        return productEntities;
+    }
+
+    public void setProductEntities(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
+    }
+
+
+    @JsonIgnore
+    public PaymentEntity getPaymentEntity() {
+        return paymentEntity;
+    }
+
+    public void setPaymentEntity(PaymentEntity paymentEntity) {
+        this.paymentEntity = paymentEntity;
     }
 
     public String getPassword() {
@@ -70,14 +83,7 @@ public class UserEntity {
         this.username = userName;
     }
 
-    public List<CartEntity> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<CartEntity> carts) {
-        this.carts = carts;
-    }
-
+    @JsonIgnore
     public UserDetailsEntity getUserDetail() {
         return userDetail;
     }

@@ -15,8 +15,17 @@ public class ProductEntity {
     private int quantity;
     @ManyToOne
     private CategoryEntity category;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<CartEntity> carts = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "productEntities")
+    private List<UserEntity> userEntities = new ArrayList<>();
+
+    public List<UserEntity> getUserEntities() {
+        return userEntities;
+    }
+
+    public void setUserEntities(List<UserEntity> userEntities) {
+        this.userEntities = userEntities;
+    }
 
     public Long getId() {
         return id;
@@ -58,11 +67,4 @@ public class ProductEntity {
         this.category = category;
     }
 
-    public List<CartEntity> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<CartEntity> carts) {
-        this.carts = carts;
-    }
 }
