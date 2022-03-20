@@ -9,7 +9,7 @@ import se.iths.clothdatabase.service.UserDetailsService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("customer")
+@RequestMapping("userDetails")
 public class UserDetailsController {
 
     UserDetailsService userDetailsService;

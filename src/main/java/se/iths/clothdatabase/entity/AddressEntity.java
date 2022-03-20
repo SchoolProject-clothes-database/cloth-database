@@ -1,5 +1,7 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +104,8 @@ public class AddressEntity {
         this.phoneNumber = phoneNumber;
     }
 
+
+    @JsonIgnore
     public List<UserDetailsEntity> getUserDetails() {
         return userDetails;
     }

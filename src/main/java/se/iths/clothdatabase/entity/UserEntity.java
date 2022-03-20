@@ -1,8 +1,10 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +53,10 @@ public class UserEntity {
         this.password = password;
     }
 
+    public UserEntity() {
+    }
+
+    @JsonIgnore
     public Set<RoleEntity> getRoles() {
         return roles;
     }
