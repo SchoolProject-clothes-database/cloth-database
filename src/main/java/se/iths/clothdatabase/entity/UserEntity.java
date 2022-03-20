@@ -11,6 +11,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private Long id;
     private String username;
     private String password;
@@ -18,17 +19,26 @@ public class UserEntity {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userDetail_id", nullable = false)
     private UserDetailsEntity userDetail;
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "user")
-    private PaymentEntity payment;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<RoleEntity> roles = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "payment_entity_id")
+    private PaymentEntity paymentEntity;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "user_entity_product_entities",
+            joinColumns = @JoinColumn(name = "user_entity_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_entities_id", referencedColumnName = "id"))
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "userRoles",
+            joinColumns = @JoinColumn(name = "role"),
+            inverseJoinColumns = @JoinColumn(name = "user"))
+    private Set<RoleEntity> roles = new LinkedHashSet<>();
 
     public void addRoles(RoleEntity role){
         roles.add(role);
-        role.getUsers().add(this);
+        role.getUser().add(this);
     }
 
     public void addDetails(UserDetailsEntity userDetailsEntity){
@@ -101,11 +111,4 @@ public class UserEntity {
         this.userDetail = userDetail;
     }
 
-    public PaymentEntity getPayment() {
-        return payment;
-    }
-
-    public void setPayment(PaymentEntity payment) {
-        this.payment = payment;
-    }
 }
