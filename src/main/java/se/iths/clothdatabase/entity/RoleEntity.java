@@ -1,8 +1,11 @@
 package se.iths.clothdatabase.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -13,8 +16,20 @@ public class RoleEntity {
     @Column(name = "id", nullable = false)
     private Long id;
     private String role;
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users;
+
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    private Set<UserEntity> user = new LinkedHashSet<>();
+
+
+    @JsonIgnore
+    public Set<UserEntity> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<UserEntity> user) {
+        this.user = user;
+    }
+
 
     public RoleEntity(String role) {
         this.role = role;
@@ -31,14 +46,7 @@ public class RoleEntity {
         this.role = role;
     }
 
-    @JsonIgnore
-    public Set<UserEntity> getUsers() {
-        return users;
-    }
 
-    public void setUsers(Set<UserEntity> users) {
-        this.users = users;
-    }
 
     public Long getId() {
         return id;
@@ -46,5 +54,18 @@ public class RoleEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        RoleEntity that = (RoleEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
