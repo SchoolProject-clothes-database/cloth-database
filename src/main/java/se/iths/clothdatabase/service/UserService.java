@@ -35,9 +35,7 @@ public class UserService {
 
     public UserEntity updateUser(Long id, UserEntity userEntity) {
         UserEntity foundUser = userRepository.findById(id).orElseThrow();
-        foundUser.setUserName(userEntity.getUserName());
-        foundUser.setRole(userEntity.getRole());
-
+        foundUser.setUsername(userEntity.getUsername());
         return userRepository.save(userEntity);
     }
 }

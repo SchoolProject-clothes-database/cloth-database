@@ -2,7 +2,9 @@ package se.iths.clothdatabase.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class UserEntity {
@@ -10,8 +12,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String userName;
-    private String role;
+    private String username;
+    private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CartEntity> carts = new ArrayList<>();
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -22,9 +24,34 @@ public class UserEntity {
             mappedBy = "user")
     private PaymentEntity payment;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<RoleEntity> roles = new HashSet<>();
+
+    public void addRoles(RoleEntity role){
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
+    }
+
     public void addCart(CartEntity cart) {
         carts.add(cart);
         cart.setUser(this);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
@@ -35,20 +62,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public List<CartEntity> getCarts() {
