@@ -1,7 +1,10 @@
 package se.iths.clothdatabase.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.repository.RoleRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -10,13 +13,20 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        RoleEntity roleToAdd = roleRepository.findByRole("ROLE_USER");
+        userEntity.addRoles(roleToAdd);
         return userRepository.save(userEntity);
     }
 
