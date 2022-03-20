@@ -31,6 +31,15 @@ public class UserEntity {
         role.getUsers().add(this);
     }
 
+    public void addDetails(UserDetailsEntity userDetailsEntity){
+        setUserDetail(userDetailsEntity);
+        userDetailsEntity.setUser(this);
+    }
+
+    public UserEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public Set<RoleEntity> getRoles() {
         return roles;

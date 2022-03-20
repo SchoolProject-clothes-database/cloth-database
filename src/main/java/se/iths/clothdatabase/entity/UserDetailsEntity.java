@@ -17,6 +17,16 @@ public class UserDetailsEntity {
             mappedBy = "userDetail")
     private UserEntity user;
 
+    public UserDetailsEntity(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public UserDetailsEntity() {
+    }
+
+
     public Long getId() {
         return id;
     }
