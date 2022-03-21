@@ -13,13 +13,13 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long id;
     private String username;
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "userDetail_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "userDetail_id")
     private UserDetailsEntity userDetail;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -32,11 +32,12 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "product_entities_id", referencedColumnName = "id"))
     private List<ProductEntity> productEntities = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "userRoles",
             joinColumns = @JoinColumn(name = "role"),
             inverseJoinColumns = @JoinColumn(name = "user"))
     private Set<RoleEntity> roles = new LinkedHashSet<>();
+
 
     public void addRoles(RoleEntity role){
         roles.add(role);

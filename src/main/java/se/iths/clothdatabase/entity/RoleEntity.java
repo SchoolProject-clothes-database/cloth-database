@@ -17,7 +17,7 @@ public class RoleEntity {
     private Long id;
     private String role;
 
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles")
     private Set<UserEntity> user = new LinkedHashSet<>();
 
 

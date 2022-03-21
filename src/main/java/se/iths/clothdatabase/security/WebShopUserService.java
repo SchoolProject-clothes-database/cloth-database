@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.UserEntity;
 import se.iths.clothdatabase.repository.UserRepository;
 
+@Service
 public class WebShopUserService implements UserDetailsService {
 
     private final UserRepository userRepository;

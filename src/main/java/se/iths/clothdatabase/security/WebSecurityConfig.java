@@ -7,10 +7,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -18,23 +19,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http
-                .csrf().disable()
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/product/all","/users/signup").permitAll()
-                .antMatchers("/product/addProduct").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception{
+       return http
+               .csrf().disable()
+               .httpBasic()
+               .and()
+               .authorizeRequests()
+               .antMatchers("/users/signup").permitAll()
+               .antMatchers("/home","/","/application").hasRole("USER")
+               .antMatchers("/product/addProduct","/admin").hasRole("ADMIN")
+               .anyRequest().authenticated()
+               .and()
+               .formLogin()
+               .loginPage("/login")
+               .permitAll()
+               .and()
+               .logout()
+               .invalidateHttpSession(true)
+               .clearAuthentication(true)
+               .permitAll().and().build();
     }
 
 }
