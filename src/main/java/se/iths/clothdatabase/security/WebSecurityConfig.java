@@ -27,8 +27,17 @@ public class WebSecurityConfig {
                .and()
                .authorizeRequests()
                .antMatchers("/users/signup").permitAll()
-               .antMatchers("/home","/","/application").hasRole("USER")
-               .antMatchers("/product/addProduct","/admin").hasRole("ADMIN")
+               .antMatchers("/home", "/", "/application",
+                       "/users/update/",
+                       "userDetails/update/",
+                       "userDetails/find/",
+                       "product/all",
+                       "product/find/",
+                       "payment/update/",
+                       "category/find/",
+                       "category/findAll/",
+                       "address/update/").hasRole("USER")
+               .antMatchers("/product/","address/", "/users/","/userDetails/","/payment/","/category/", "/admin").hasRole("ADMIN")
                .anyRequest().authenticated()
                .and()
                .formLogin()

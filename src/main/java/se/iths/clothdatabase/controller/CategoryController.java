@@ -30,13 +30,13 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("find/{id}")
     public ResponseEntity<Optional<CategoryEntity>> findCategoryById(@PathVariable Long id) {
         Optional<CategoryEntity> foundCategory = categoryService.findCategoryById(id);
         return new ResponseEntity<>(foundCategory, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("findAll")
     public ResponseEntity<Iterable<CategoryEntity>> findAllCategory() {
         Iterable<CategoryEntity> allCategory = categoryService.findAllCategory();
         return new ResponseEntity<>(allCategory, HttpStatus.OK);
