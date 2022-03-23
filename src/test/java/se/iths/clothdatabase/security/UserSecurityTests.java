@@ -42,6 +42,13 @@ public class UserSecurityTests {
                 .build();
 
     }
+    @Test
+    @WithMockUser()
+    public void noneUserIsNotAuthenticated() throws Exception{
+        mvc
+                .perform(formLogin().password("invalid"))
+                .andExpect(unauthenticated());
+    }
 
 
 }
