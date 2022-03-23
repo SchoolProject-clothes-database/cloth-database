@@ -49,6 +49,12 @@ public class UserSecurityTests {
                 .perform(formLogin().password("invalid"))
                 .andExpect(unauthenticated());
     }
-
+    @Test
+    @WithMockUser(username = "user",password = "pass",roles = "USER")
+    void userShouldNotBeAbleToAccessAdminLevelPage() throws Exception{
+        mvc
+                .perform(formLogin("/admin"))
+                .andExpect(status().isForbidden());
+    }
 
 }
