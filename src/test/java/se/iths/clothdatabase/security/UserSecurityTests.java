@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import org.springframework.test.context.ContextConfiguration;
@@ -86,6 +87,22 @@ public class UserSecurityTests {
         mvc
                 .perform(get("/category/findAll"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithAnonymousUser
+    void noneUserShouldNotBeAbleToAccessUserLevelPage() throws Exception{
+        mvc
+                .perform(get("/category/findAll"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithAnonymousUser
+    void noneUserShouldNotBeAbleToAccessAdminLevelPage() throws Exception{
+        mvc
+                .perform(get("/admin"))
+                .andExpect(status().isUnauthorized());
     }
 
 }
