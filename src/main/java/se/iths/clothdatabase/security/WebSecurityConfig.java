@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                        "category/find/",
                        "category/findAll/",
                        "address/update/").hasRole("USER")
-               .antMatchers("/product/","address/", "/users/","/userDetails/","/payment/","/category/","/","home","/application", "/admin").hasRole("ADMIN")
+               .antMatchers("/product/","product/addProduct","address/", "/users/","/userDetails/","/payment/","/category/","/","home","/application", "/admin").hasRole("ADMIN")
                .anyRequest().authenticated()
                .and()
                .formLogin()

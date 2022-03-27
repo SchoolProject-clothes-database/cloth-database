@@ -1,5 +1,7 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,13 @@ public class ProductEntity {
     @ManyToMany(mappedBy = "productEntities")
     private List<UserEntity> userEntities = new ArrayList<>();
 
+    public void addCategory(CategoryEntity categoryEntity){
+        setCategory(categoryEntity);
+        category.getProducts().add(this);
+    }
+
+
+    @JsonIgnore
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }
