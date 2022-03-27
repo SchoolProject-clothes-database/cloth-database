@@ -27,7 +27,7 @@ public class UserEntity {
     private PaymentEntity paymentEntity;
 
     @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "user_entity_product_entities",
+    @JoinTable(name = "cart",
             joinColumns = @JoinColumn(name = "user_entity_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_entities_id", referencedColumnName = "id"))
     private List<ProductEntity> productEntities = new ArrayList<>();
@@ -37,6 +37,12 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "role"),
             inverseJoinColumns = @JoinColumn(name = "user"))
     private Set<RoleEntity> roles = new LinkedHashSet<>();
+
+
+    public void addToCart(ProductEntity productEntity){
+        productEntities.add(productEntity);
+        productEntity.getUserEntities().add(this);
+    }
 
 
     public void addRoles(RoleEntity role){

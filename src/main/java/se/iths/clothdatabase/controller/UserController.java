@@ -24,6 +24,12 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    @PatchMapping("addToCart/{userId}/{productId}")
+    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId){
+        userService.addToCart(userId, productId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

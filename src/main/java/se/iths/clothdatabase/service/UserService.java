@@ -2,8 +2,10 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.RoleRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 
@@ -16,11 +18,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProductRepository productRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.productRepository = productRepository;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
@@ -28,6 +32,13 @@ public class UserService {
         RoleEntity roleToAdd = roleRepository.findByRole("ROLE_USER");
         userEntity.addRoles(roleToAdd);
         return userRepository.save(userEntity);
+    }
+
+    public void addToCart(Long userId, Long productId){
+        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow();
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.addToCart(productToAdd);
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
