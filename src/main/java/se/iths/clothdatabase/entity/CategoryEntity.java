@@ -22,6 +22,14 @@ public class CategoryEntity {
         product.setCategory(this);
     }
 
+    public CategoryEntity(String categoryName, String type) {
+        this.categoryName = categoryName;
+        this.type = type;
+    }
+
+    public CategoryEntity() {
+    }
+
     public Long getId() {
         return id;
     }
