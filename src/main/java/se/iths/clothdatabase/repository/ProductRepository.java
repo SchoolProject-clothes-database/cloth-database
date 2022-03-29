@@ -6,4 +6,5 @@ import se.iths.clothdatabase.entity.ProductEntity;
 
 @Repository
 public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
+    ProductEntity findByProductName(String productName);
 }
