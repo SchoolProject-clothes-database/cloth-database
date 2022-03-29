@@ -4,6 +4,7 @@ package se.iths.clothdatabase.productEntityTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import se.iths.clothdatabase.entity.CategoryEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.repository.ProductRepository;
@@ -11,6 +12,7 @@ import se.iths.clothdatabase.repository.ProductRepository;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class ProductTests {
 
     @Autowired
