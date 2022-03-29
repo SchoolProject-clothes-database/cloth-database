@@ -28,4 +28,14 @@ public class ProductTests {
         assertThat(categoryEntity.getProducts().get(0).getProductName()).isEqualTo("socks");
     }
 
+    @Test
+    void totalSumIsCorrect(){
+        ProductEntity productEntity = new ProductEntity("socks",20,2);
+        ProductEntity productEntity2 = new ProductEntity("socks",20,2);
+        productRepository.save(productEntity);
+        productRepository.save(productEntity2);
+
+        assertThat(productRepository.totalSum()).isEqualTo(40);
+    }
+
 }
