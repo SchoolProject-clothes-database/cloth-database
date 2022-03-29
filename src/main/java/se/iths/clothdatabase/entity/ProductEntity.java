@@ -26,6 +26,14 @@ public class ProductEntity {
         category.getProducts().add(this);
     }
 
+    public ProductEntity(String productName, double price, int quantity) {
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public ProductEntity() {
+    }
 
     @JsonIgnore
     public List<UserEntity> getUserEntities() {
