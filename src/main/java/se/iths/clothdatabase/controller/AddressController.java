@@ -42,7 +42,7 @@ public class AddressController {
         return new ResponseEntity<>(allAddress, HttpStatus.OK);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("update/{id}")
     public ResponseEntity<AddressEntity> updateAddress(@PathVariable Long id, @RequestBody AddressEntity addressEntity) {
         return new ResponseEntity<>(addressService.updateAddress(id, addressEntity), HttpStatus.OK);
     }

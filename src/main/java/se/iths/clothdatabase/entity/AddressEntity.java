@@ -1,5 +1,7 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,22 @@ public class AddressEntity {
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private List<UserDetailsEntity> userDetails = new ArrayList<>();
 
-    public void addUserDetails(UserDetailsEntity userDetail) {
-        userDetails.add(userDetail);
-        userDetail.setAddress(this);
+    public AddressEntity(String street, int zipCode, int houseNumber, String country, String province, String city, String phoneNumber) {
+        this.street = street;
+        this.zipCode = zipCode;
+        this.houseNumber = houseNumber;
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void addAddress(UserDetailsEntity userDetailsEntity){
+        userDetails.add(userDetailsEntity);
+        userDetailsEntity.setAddress(this);
+    }
+
+    public AddressEntity() {
     }
 
     public Long getId() {
@@ -89,6 +104,8 @@ public class AddressEntity {
         this.phoneNumber = phoneNumber;
     }
 
+
+    @JsonIgnore
     public List<UserDetailsEntity> getUserDetails() {
         return userDetails;
     }

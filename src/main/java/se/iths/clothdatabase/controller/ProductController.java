@@ -18,7 +18,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping()
+    @PostMapping("/addProduct")
     public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product) {
         ProductEntity createdProduct = productService.createProduct(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
@@ -30,13 +30,13 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Optional<ProductEntity>> findProductById(@PathVariable Long id) {
         Optional<ProductEntity> foundProduct = productService.findProductById(id);
         return new ResponseEntity<>(foundProduct, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<Iterable<ProductEntity>> findAllProduct() {
         Iterable<ProductEntity> allProduct = productService.findAllProducts();
         return new ResponseEntity<>(allProduct, HttpStatus.OK);

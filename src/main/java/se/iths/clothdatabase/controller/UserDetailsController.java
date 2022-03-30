@@ -9,7 +9,7 @@ import se.iths.clothdatabase.service.UserDetailsService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("customer")
+@RequestMapping("userDetails")
 public class UserDetailsController {
 
     UserDetailsService userDetailsService;
@@ -30,19 +30,19 @@ public class UserDetailsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Optional<UserDetailsEntity>> findUserDetailsById(@PathVariable Long id) {
         Optional<UserDetailsEntity> foundUserDetails = userDetailsService.findUserDetailById(id);
         return new ResponseEntity<>(foundUserDetails, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<Iterable<UserDetailsEntity>> findAllUserDetails() {
         Iterable<UserDetailsEntity> allUserDetails = userDetailsService.findAllUserDetails();
         return new ResponseEntity<>(allUserDetails, HttpStatus.OK);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("update/{id}")
     public ResponseEntity<UserDetailsEntity> updateUserDetails(@PathVariable Long id, @RequestBody UserDetailsEntity userDetailsEntity) {
         return new ResponseEntity<>(userDetailsService.updateUserDetails(id, userDetailsEntity), HttpStatus.OK);
     }

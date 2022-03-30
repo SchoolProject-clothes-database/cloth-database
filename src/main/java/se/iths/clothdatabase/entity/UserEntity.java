@@ -1,30 +1,96 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = true)
     private Long id;
-    private String userName;
-    private String role;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CartEntity> carts = new ArrayList<>();
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "userDetail_id", nullable = false)
-    private UserDetailsEntity userDetail;
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "user")
-    private PaymentEntity payment;
+    private String username;
+    private String password;
 
-    public void addCart(CartEntity cart) {
-        carts.add(cart);
-        cart.setUser(this);
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "userDetail_id")
+    private UserDetailsEntity userDetail;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "payment_entity_id")
+    private PaymentEntity paymentEntity;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "user_entity_product_entities",
+            joinColumns = @JoinColumn(name = "user_entity_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_entities_id", referencedColumnName = "id"))
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "userRoles",
+            joinColumns = @JoinColumn(name = "role"),
+            inverseJoinColumns = @JoinColumn(name = "user"))
+    private Set<RoleEntity> roles = new LinkedHashSet<>();
+
+
+    public void addRoles(RoleEntity role){
+        roles.add(role);
+        role.getUser().add(this);
+    }
+
+    public void addDetails(UserDetailsEntity userDetailsEntity){
+        setUserDetail(userDetailsEntity);
+        userDetailsEntity.setUser(this);
+    }
+
+    public UserEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public UserEntity() {
+    }
+
+    @JsonIgnore
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
+    }
+
+    @JsonIgnore
+    public List<ProductEntity> getProductEntities() {
+        return productEntities;
+    }
+
+    public void setProductEntities(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
+    }
+
+
+    @JsonIgnore
+    public PaymentEntity getPaymentEntity() {
+        return paymentEntity;
+    }
+
+    public void setPaymentEntity(PaymentEntity paymentEntity) {
+        this.paymentEntity = paymentEntity;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
@@ -35,30 +101,15 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public List<CartEntity> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<CartEntity> carts) {
-        this.carts = carts;
-    }
-
+    @JsonIgnore
     public UserDetailsEntity getUserDetail() {
         return userDetail;
     }
@@ -67,11 +118,4 @@ public class UserEntity {
         this.userDetail = userDetail;
     }
 
-    public PaymentEntity getPayment() {
-        return payment;
-    }
-
-    public void setPayment(PaymentEntity payment) {
-        this.payment = payment;
-    }
 }

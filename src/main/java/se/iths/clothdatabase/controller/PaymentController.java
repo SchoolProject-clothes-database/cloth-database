@@ -42,7 +42,7 @@ public class PaymentController {
         return new ResponseEntity<>(allPayment, HttpStatus.OK);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("update/{id}")
     public ResponseEntity<PaymentEntity> updatePayment(@PathVariable Long id, @RequestBody PaymentEntity paymentEntity) {
         return new ResponseEntity<>(paymentService.updatePayment(id, paymentEntity), HttpStatus.OK);
     }
