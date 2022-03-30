@@ -13,6 +13,13 @@ public class PaymentEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    public PaymentEntity(double amount) {
+        this.amount = amount;
+    }
+
+    public PaymentEntity() {
+    }
+
     public Long getId() {
         return id;
     }

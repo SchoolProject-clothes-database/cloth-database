@@ -44,6 +44,11 @@ public class UserEntity {
         productEntity.getUserEntities().add(this);
     }
 
+    public void addPaymentOption(PaymentEntity paymentEntity){
+        setPaymentEntity(paymentEntity);
+        paymentEntity.setUser(this);
+    }
+
 
     public void addRoles(RoleEntity role){
         roles.add(role);
