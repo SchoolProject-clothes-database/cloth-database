@@ -36,6 +36,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("checkout/{userId}")
+    public ResponseEntity<Void> checkOut(@PathVariable Long userId){
+        userService.checkOut(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

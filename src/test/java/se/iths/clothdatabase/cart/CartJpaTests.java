@@ -51,10 +51,11 @@ public class CartJpaTests {
         userRepository.save(userEntity);
 
         double balance = userEntity.getPaymentEntity().getAmount();
-        balance -= productRepository.totalSum();
+        balance -= productRepository.totalSum(userEntity.getId()).stream().mapToDouble(value -> value).sum();
         userEntity.getPaymentEntity().setAmount(balance);
+        userRepository.save(userEntity);
 
-        assertThat(balance).isEqualTo(160);
+        assertThat(userEntity.getPaymentEntity().getAmount()).isEqualTo(160);
     }
 
 

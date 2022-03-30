@@ -21,19 +21,19 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProductRepository productRepository;
-    private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentService paymentService) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.productRepository = productRepository;
-        this.paymentService = paymentService;
+        this.paymentRepository = paymentRepository;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        RoleEntity roleToAdd = roleRepository.findByRole("ROLE_USER");
+        RoleEntity roleToAdd = roleRepository.findByRole("ROLE_ADMIN");
         userEntity.addRoles(roleToAdd);
         return userRepository.save(userEntity);
     }
@@ -46,16 +46,19 @@ public class UserService {
     }
 
     public void addToPaymentOption(Long userId, Long paymentId){
-        PaymentEntity paymentEntity = paymentService.findPaymentById(paymentId).orElseThrow();
+        PaymentEntity paymentEntity = paymentRepository.findById(paymentId).orElseThrow();
         UserEntity user = userRepository.findById(userId).orElseThrow();
         user.addPaymentOption(paymentEntity);
         userRepository.save(user);
     }
 
-    public void checkOut(UserEntity userEntity){
-        double balance = userEntity.getPaymentEntity().getAmount();
-        balance -= productRepository.totalSum();
-        userEntity.getPaymentEntity().setAmount(balance);
+    public void checkOut(Long userId){
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+
+        double balance = user.getPaymentEntity().getAmount();
+        balance -= productRepository.totalSum(user.getId()).stream().mapToDouble(value -> value).sum();
+        user.getPaymentEntity().setAmount(balance);
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
