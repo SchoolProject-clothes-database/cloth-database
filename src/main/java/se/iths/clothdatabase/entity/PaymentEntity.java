@@ -9,8 +9,8 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private double amount;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public PaymentEntity(double amount) {

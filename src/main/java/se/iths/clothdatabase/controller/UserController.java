@@ -30,6 +30,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("addPayment/{userId}/{paymentId}")
+    public ResponseEntity<Void> addPayment(@PathVariable Long userId, @PathVariable Long paymentId){
+        userService.addToPaymentOption(userId, paymentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
