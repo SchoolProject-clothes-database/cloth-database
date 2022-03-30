@@ -23,26 +23,16 @@ public class ClothDatabaseApplication {
         SpringApplication.run(ClothDatabaseApplication.class, args);
     }
 
-  /*  @Bean
+   @Bean
     public CommandLineRunner setUpRole(RoleRepository roleRepository){
         return (args) -> {
-            roleRepository.save(new RoleEntity("ROLE_ADMIN"));
-            roleRepository.save(new RoleEntity("ROLE_USER"));
-        };
-    }*/
-
-    @Bean
-    public CommandLineRunner setUpAddress(AddressRepository addressRepository, UserDetailsRepository userDetailsRepository, UserRepository userRepository){
-        return (args) -> {
-            AddressEntity address1 = new AddressEntity("city",2223,32,"country","province","street","phonenumber");
-            UserDetailsEntity userDetailsEntity1 = new UserDetailsEntity("firstname", "lastname", "email" );
-            UserEntity userEntity = new UserEntity("username","password");
-            address1.addAddress(userDetailsEntity1);
-            userEntity.addDetails(userDetailsEntity1);
-
-            addressRepository.save(address1);
+            if( roleRepository.findByRole("ROLE_ADMIN") == null )
+                roleRepository.save(new RoleEntity("ROLE_ADMIN"));
+            if( roleRepository.findByRole("ROLE_USER") == null )
+                roleRepository.save(new RoleEntity("ROLE_USER"));
         };
     }
+
 
 
 }
