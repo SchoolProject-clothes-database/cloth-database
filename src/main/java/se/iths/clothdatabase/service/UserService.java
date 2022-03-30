@@ -2,9 +2,11 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.clothdatabase.entity.PaymentEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.repository.PaymentRepository;
 import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.RoleRepository;
 import se.iths.clothdatabase.repository.UserRepository;
@@ -19,12 +21,14 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProductRepository productRepository;
+    private final PaymentService paymentService;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentService paymentService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.productRepository = productRepository;
+        this.paymentService = paymentService;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
@@ -39,6 +43,19 @@ public class UserService {
         UserEntity user = userRepository.findById(userId).orElseThrow();
         user.addToCart(productToAdd);
         userRepository.save(user);
+    }
+
+    public void addToPaymentOption(Long userId, Long paymentId){
+        PaymentEntity paymentEntity = paymentService.findPaymentById(paymentId).orElseThrow();
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.addPaymentOption(paymentEntity);
+        userRepository.save(user);
+    }
+
+    public void checkOut(UserEntity userEntity){
+        double balance = userEntity.getPaymentEntity().getAmount();
+        balance -= productRepository.totalSum();
+        userEntity.getPaymentEntity().setAmount(balance);
     }
 
     public void deleteUser(Long id) {
