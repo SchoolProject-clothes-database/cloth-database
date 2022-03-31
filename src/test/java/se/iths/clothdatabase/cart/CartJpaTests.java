@@ -15,6 +15,8 @@ import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 import se.iths.clothdatabase.service.UserService;
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
@@ -56,6 +58,28 @@ public class CartJpaTests {
         userRepository.save(userEntity);
 
         assertThat(userEntity.getPaymentEntity().getAmount()).isEqualTo(160);
+    }
+
+    @Test
+    @Transactional
+    void checkOutReducesUserBalanceCorrectlyAndRemovesCorrectItemsFromCartAndProductTables(){
+
+        UserEntity userEntity = new UserEntity("username","pass");
+        PaymentEntity paymentEntity = new PaymentEntity(200);
+        ProductEntity productEntity = new ProductEntity("socks",40,2);
+        userEntity.addToCart(productEntity);
+        userEntity.addPaymentOption(paymentEntity);
+
+        userRepository.save(userEntity);
+
+        double balance = userEntity.getPaymentEntity().getAmount();
+        balance -= productRepository.totalSum(userEntity.getId()).stream().mapToDouble(value -> value).sum();
+        userEntity.getPaymentEntity().setAmount(balance);
+        productRepository.purchasedProduct(userEntity.getId());
+        userRepository.save(userEntity);
+
+        assertThat(userEntity.getPaymentEntity().getAmount()).isEqualTo(160);
+        assertThat(productRepository.count()).isEqualTo(0);
     }
 
 

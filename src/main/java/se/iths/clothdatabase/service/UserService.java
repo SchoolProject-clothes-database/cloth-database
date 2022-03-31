@@ -12,6 +12,7 @@ import se.iths.clothdatabase.repository.RoleRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -52,12 +53,14 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void checkOut(Long userId){
         UserEntity user = userRepository.findById(userId).orElseThrow();
 
         double balance = user.getPaymentEntity().getAmount();
         balance -= productRepository.totalSum(user.getId()).stream().mapToDouble(value -> value).sum();
         user.getPaymentEntity().setAmount(balance);
+        productRepository.purchasedProduct(user.getId());
         userRepository.save(user);
     }
 
