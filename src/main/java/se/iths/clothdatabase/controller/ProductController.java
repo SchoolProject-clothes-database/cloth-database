@@ -18,9 +18,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/addProduct")
-    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product) {
-        ProductEntity createdProduct = productService.createProduct(product);
+    @PostMapping("/addProduct/{categoryId}")
+    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product, @PathVariable Long categoryId) {
+        ProductEntity createdProduct = productService.createProduct(product, categoryId);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 

@@ -2,12 +2,17 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.clothdatabase.entity.PaymentEntity;
+import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.repository.PaymentRepository;
+import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.RoleRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -16,18 +21,47 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProductRepository productRepository;
+    private final PaymentRepository paymentRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.productRepository = productRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        RoleEntity roleToAdd = roleRepository.findByRole("ROLE_USER");
+        RoleEntity roleToAdd = roleRepository.findByRole("ROLE_ADMIN");
         userEntity.addRoles(roleToAdd);
         return userRepository.save(userEntity);
+    }
+
+    public void addToCart(Long userId, Long productId){
+        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow();
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.addToCart(productToAdd);
+        userRepository.save(user);
+    }
+
+    public void addToPaymentOption(Long userId, Long paymentId){
+        PaymentEntity paymentEntity = paymentRepository.findById(paymentId).orElseThrow();
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.addPaymentOption(paymentEntity);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void checkOut(Long userId){
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+
+        double balance = user.getPaymentEntity().getAmount();
+        balance -= productRepository.totalSum(user.getId()).stream().mapToDouble(value -> value).sum();
+        user.getPaymentEntity().setAmount(balance);
+        productRepository.purchasedProduct(user.getId());
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {

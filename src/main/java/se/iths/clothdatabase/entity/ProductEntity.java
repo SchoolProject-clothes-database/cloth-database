@@ -1,5 +1,7 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +14,26 @@ public class ProductEntity {
     private Long id;
     private String productName;
     private double price;
-    private int quantity;
     @ManyToOne
     private CategoryEntity category;
 
     @ManyToMany(mappedBy = "productEntities")
     private List<UserEntity> userEntities = new ArrayList<>();
 
+    public void addCategory(CategoryEntity categoryEntity){
+        setCategory(categoryEntity);
+        category.getProducts().add(this);
+    }
+
+    public ProductEntity(String productName, double price, int quantity) {
+        this.productName = productName;
+        this.price = price;
+    }
+
+    public ProductEntity() {
+    }
+
+    @JsonIgnore
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }
@@ -49,14 +64,6 @@ public class ProductEntity {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public CategoryEntity getCategory() {
