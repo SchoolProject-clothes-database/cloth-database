@@ -43,7 +43,6 @@ public class ProductService {
         ProductEntity foundProduct = productRepository.findById(id).orElseThrow();
         foundProduct.setProductName(productEntity.getProductName());
         foundProduct.setPrice(productEntity.getPrice());
-        foundProduct.setQuantity(productEntity.getQuantity());
 
         return productRepository.save(productEntity);
     }

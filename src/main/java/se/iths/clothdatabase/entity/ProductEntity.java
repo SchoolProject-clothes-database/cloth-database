@@ -14,7 +14,6 @@ public class ProductEntity {
     private Long id;
     private String productName;
     private double price;
-    private int quantity;
     @ManyToOne
     private CategoryEntity category;
 
@@ -29,7 +28,6 @@ public class ProductEntity {
     public ProductEntity(String productName, double price, int quantity) {
         this.productName = productName;
         this.price = price;
-        this.quantity = quantity;
     }
 
     public ProductEntity() {
@@ -66,14 +64,6 @@ public class ProductEntity {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public CategoryEntity getCategory() {
