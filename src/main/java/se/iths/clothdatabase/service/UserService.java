@@ -6,6 +6,7 @@ import se.iths.clothdatabase.entity.PaymentEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.LessThanThreeCharacterException;
 import se.iths.clothdatabase.exception.NotEnoughMoneyException;
 import se.iths.clothdatabase.exception.ProductIsNotInStockException;
 import se.iths.clothdatabase.repository.PaymentRepository;
@@ -34,7 +35,10 @@ public class UserService {
         this.paymentRepository = paymentRepository;
     }
 
-    public UserEntity createUser(UserEntity userEntity) {
+    public UserEntity createUser(UserEntity userEntity) throws LessThanThreeCharacterException {
+        if(userEntity.getUsername().length() < 3 || userEntity.getPassword().length() < 3)
+            throw new LessThanThreeCharacterException("Needs to be longer than 3 characters");
+
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         RoleEntity roleToAdd = roleRepository.findByRole("ROLE_ADMIN");
         userEntity.addRoles(roleToAdd);

@@ -33,6 +33,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
     }
 
+    @ExceptionHandler({LessThanThreeCharacterException.class})
+    public ResponseEntity<Object> lessThanThreeCharacterException (LessThanThreeCharacterException exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "Needs to be longer than 3 characters";
+
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
+    }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
