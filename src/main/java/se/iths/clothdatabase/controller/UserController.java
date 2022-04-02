@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.NotEnoughMoneyException;
 import se.iths.clothdatabase.service.UserService;
 
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("checkout/{userId}")
-    public ResponseEntity<Void> checkOut(@PathVariable Long userId){
+    public ResponseEntity<Void> checkOut(@PathVariable Long userId) throws NotEnoughMoneyException {
         userService.checkOut(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

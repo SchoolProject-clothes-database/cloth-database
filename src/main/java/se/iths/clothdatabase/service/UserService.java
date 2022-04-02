@@ -6,6 +6,8 @@ import se.iths.clothdatabase.entity.PaymentEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.RoleEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.NotEnoughMoneyException;
+import se.iths.clothdatabase.exception.ProductIsNotInStockException;
 import se.iths.clothdatabase.repository.PaymentRepository;
 import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.RoleRepository;
@@ -54,14 +56,19 @@ public class UserService {
     }
 
     @Transactional
-    public void checkOut(Long userId){
+    public void checkOut(Long userId) throws NotEnoughMoneyException {
         UserEntity user = userRepository.findById(userId).orElseThrow();
 
         double balance = user.getPaymentEntity().getAmount();
         balance -= productRepository.totalSum(user.getId()).stream().mapToDouble(value -> value).sum();
         user.getPaymentEntity().setAmount(balance);
         productRepository.purchasedProduct(user.getId());
+
         userRepository.save(user);
+        if(user.getPaymentEntity().getAmount()< 0)
+           throw new NotEnoughMoneyException("Not enough money");
+
+
     }
 
     public void deleteUser(Long id) {

@@ -18,6 +18,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
+    @ExceptionHandler({NotEnoughMoneyException.class})
+    public ResponseEntity<Object> notEnoughMoneyException(NotEnoughMoneyException exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "Not enough money!";
+
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
+    }
+
+
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
