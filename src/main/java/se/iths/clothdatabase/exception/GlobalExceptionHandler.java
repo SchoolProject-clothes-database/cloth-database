@@ -41,6 +41,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
     }
 
+    @ExceptionHandler({PriceIsMoreThanZeroException.class})
+    public ResponseEntity<Object> priceIsMoreThanZeroException (PriceIsMoreThanZeroException exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "Price can't be less than 0";
+
+        return buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE, errorMessage,exception));
+    }
+
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         logger.info(ex.getClass().getName());

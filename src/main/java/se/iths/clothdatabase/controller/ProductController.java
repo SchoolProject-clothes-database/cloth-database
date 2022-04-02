@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.ProductEntity;
+import se.iths.clothdatabase.exception.PriceIsMoreThanZeroException;
 import se.iths.clothdatabase.service.ProductService;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct/{categoryId}")
-    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product, @PathVariable Long categoryId) {
+    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product, @PathVariable Long categoryId) throws PriceIsMoreThanZeroException {
         ProductEntity createdProduct = productService.createProduct(product, categoryId);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
