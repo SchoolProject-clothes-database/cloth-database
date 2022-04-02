@@ -41,7 +41,13 @@ public class CartExceptionsTest {
         assertThatThrownBy(() -> userService.checkOut(userEntity.getId())).isInstanceOf(NotEnoughMoneyException.class);
 
     }
+    @Test
+    void productIsNotInStockExceptionTest(){
+        UserEntity userEntity = new UserEntity("username","pass");
+        Long productId = 1L;
+        assertThatThrownBy(() -> userService.addToCart(userEntity.getId(),productId)).isInstanceOf(ProductIsNotInStockException.class);
 
+    }
 
 
 

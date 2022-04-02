@@ -25,7 +25,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
     }
+    @ExceptionHandler({ProductIsNotInStockException.class})
+    public ResponseEntity<Object> productIsInStockException (ProductIsNotInStockException exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "Out of stock";
 
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
+    }
 
 
     @ExceptionHandler({Exception.class})

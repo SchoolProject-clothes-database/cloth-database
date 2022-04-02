@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserEntity;
 import se.iths.clothdatabase.exception.NotEnoughMoneyException;
 import se.iths.clothdatabase.service.UserService;
-
+import se.iths.clothdatabase.exception.ProductIsNotInStockException;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PatchMapping("addToCart/{userId}/{productId}")
-    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId){
+    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId) throws ProductIsNotInStockException {
         userService.addToCart(userId, productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

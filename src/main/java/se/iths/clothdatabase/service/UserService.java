@@ -41,8 +41,8 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public void addToCart(Long userId, Long productId){
-        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow();
+    public void addToCart(Long userId, Long productId) throws ProductIsNotInStockException {
+        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow(() -> new ProductIsNotInStockException("Out of stock"));
         UserEntity user = userRepository.findById(userId).orElseThrow();
         user.addToCart(productToAdd);
         userRepository.save(user);
