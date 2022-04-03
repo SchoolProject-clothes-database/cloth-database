@@ -1,6 +1,8 @@
 package se.iths.clothdatabase.entity;
 
 import javax.persistence.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 public class UserDetailsEntity {
@@ -26,6 +28,13 @@ public class UserDetailsEntity {
     }
 
     public UserDetailsEntity() {
+    }
+
+    public boolean emailCheck(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
 

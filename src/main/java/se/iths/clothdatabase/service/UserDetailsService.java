@@ -2,6 +2,7 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
+import se.iths.clothdatabase.exception.InvalidEmailException;
 import se.iths.clothdatabase.exception.YoungerThan15Exception;
 import se.iths.clothdatabase.repository.UserDetailsRepository;
 
@@ -17,9 +18,11 @@ public class UserDetailsService {
         this.userDetailsRepository = userDetailsRepository;
     }
 
-    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity) throws YoungerThan15Exception {
+    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity) throws YoungerThan15Exception, InvalidEmailException {
         if(userDetailsEntity.getAge() < 15)
             throw new YoungerThan15Exception("You need to be older than 15");
+        if(!userDetailsEntity.emailCheck(userDetailsEntity.getEmail()))
+            throw new InvalidEmailException("Incorrect Format");
 
         return userDetailsRepository.save(userDetailsEntity);
     }
