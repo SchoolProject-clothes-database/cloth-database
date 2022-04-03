@@ -56,7 +56,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE, errorMessage,exception));
     }
+    @ExceptionHandler({YoungerThan15Exception.class})
+    public ResponseEntity<Object> olderThan15Exception (YoungerThan15Exception exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "You need to be older than 15 to be able to create an account";
 
+        return buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE, errorMessage,exception));
+    }
 
 
     @ExceptionHandler({Exception.class})

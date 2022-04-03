@@ -2,6 +2,7 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
+import se.iths.clothdatabase.exception.YoungerThan15Exception;
 import se.iths.clothdatabase.repository.UserDetailsRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +17,10 @@ public class UserDetailsService {
         this.userDetailsRepository = userDetailsRepository;
     }
 
-    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity) {
+    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity) throws YoungerThan15Exception {
+        if(userDetailsEntity.getAge() < 15)
+            throw new YoungerThan15Exception("You need to be older than 15");
+
         return userDetailsRepository.save(userDetailsEntity);
     }
 

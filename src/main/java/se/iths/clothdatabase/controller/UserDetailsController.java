@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
+import se.iths.clothdatabase.exception.YoungerThan15Exception;
 import se.iths.clothdatabase.service.UserDetailsService;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class UserDetailsController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails) {
+    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails) throws YoungerThan15Exception {
         UserDetailsEntity createdUserDetails = userDetailsService.createUserDetail(userDetails);
         return new ResponseEntity<>(createdUserDetails, HttpStatus.CREATED);
     }
