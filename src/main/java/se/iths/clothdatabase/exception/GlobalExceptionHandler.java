@@ -49,6 +49,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE, errorMessage,exception));
     }
 
+    @ExceptionHandler({IncorrectZIPCodeException.class})
+    public ResponseEntity<Object> incorrectZIPCodeException (IncorrectZIPCodeException exception){
+        logger.info(exception.getClass().getName());
+        String errorMessage = "ZIP code needs to be 5 digits";
+
+        return buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE, errorMessage,exception));
+    }
+
+
+
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         logger.info(ex.getClass().getName());
