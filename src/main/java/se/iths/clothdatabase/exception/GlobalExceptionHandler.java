@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
+import se.iths.clothdatabase.exception.product.PriceIsMoreThanZeroException;
+import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
+import se.iths.clothdatabase.exception.user.LessThanThreeCharacterException;
+import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

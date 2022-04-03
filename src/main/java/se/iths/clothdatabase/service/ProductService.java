@@ -3,7 +3,7 @@ package se.iths.clothdatabase.service;
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.CategoryEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
-import se.iths.clothdatabase.exception.PriceIsMoreThanZeroException;
+import se.iths.clothdatabase.exception.product.PriceIsMoreThanZeroException;
 import se.iths.clothdatabase.repository.CategoryRepository;
 import se.iths.clothdatabase.repository.ProductRepository;
 

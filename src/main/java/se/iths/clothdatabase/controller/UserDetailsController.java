@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
-import se.iths.clothdatabase.exception.InvalidEmailException;
-import se.iths.clothdatabase.exception.YoungerThan15Exception;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 import se.iths.clothdatabase.service.UserDetailsService;
 
 import java.util.Optional;

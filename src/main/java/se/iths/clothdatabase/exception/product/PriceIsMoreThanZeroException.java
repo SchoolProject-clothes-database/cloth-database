@@ -1,4 +1,4 @@
-package se.iths.clothdatabase.exception;
+package se.iths.clothdatabase.exception.product;
 
 public class PriceIsMoreThanZeroException extends Exception{
     public PriceIsMoreThanZeroException(String message) {

@@ -7,6 +7,8 @@ import org.springframework.test.context.TestPropertySource;
 import se.iths.clothdatabase.entity.PaymentEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
+import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
 import se.iths.clothdatabase.repository.ProductRepository;
 import se.iths.clothdatabase.repository.UserRepository;
 import se.iths.clothdatabase.service.UserService;

@@ -2,8 +2,8 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
-import se.iths.clothdatabase.exception.InvalidEmailException;
-import se.iths.clothdatabase.exception.YoungerThan15Exception;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 import se.iths.clothdatabase.repository.UserDetailsRepository;
 
 import javax.persistence.EntityNotFoundException;

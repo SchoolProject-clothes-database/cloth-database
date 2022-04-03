@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 import se.iths.clothdatabase.service.UserDetailsService;
 
 import static org.assertj.core.api.Assertions.assertThat;

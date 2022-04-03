@@ -1,4 +1,4 @@
-package se.iths.clothdatabase.exception;
+package se.iths.clothdatabase.exception.userDetails;
 
 
 public class InvalidEmailException extends Exception{

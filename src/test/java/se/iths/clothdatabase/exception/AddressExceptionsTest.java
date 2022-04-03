@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import se.iths.clothdatabase.entity.AddressEntity;
+import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
 import se.iths.clothdatabase.service.AddressService;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

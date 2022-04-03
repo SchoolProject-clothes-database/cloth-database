@@ -1,4 +1,4 @@
-package se.iths.clothdatabase.exception;
+package se.iths.clothdatabase.exception.user;
 
 public class LessThanThreeCharacterException extends Exception{
     public LessThanThreeCharacterException(String message) {

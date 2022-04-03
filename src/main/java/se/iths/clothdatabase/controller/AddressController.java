@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.AddressEntity;
-import se.iths.clothdatabase.exception.IncorrectZIPCodeException;
+import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
 import se.iths.clothdatabase.service.AddressService;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package se.iths.clothdatabase.exception;
+package se.iths.clothdatabase.exception.user;
 
 public class NotEnoughMoneyException extends Exception{
     public NotEnoughMoneyException(String message) {

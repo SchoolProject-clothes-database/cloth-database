@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserEntity;
-import se.iths.clothdatabase.exception.LessThanThreeCharacterException;
-import se.iths.clothdatabase.exception.NotEnoughMoneyException;
+import se.iths.clothdatabase.exception.user.LessThanThreeCharacterException;
+import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
 import se.iths.clothdatabase.service.UserService;
-import se.iths.clothdatabase.exception.ProductIsNotInStockException;
+import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
 import java.util.Optional;
 
 @RestController

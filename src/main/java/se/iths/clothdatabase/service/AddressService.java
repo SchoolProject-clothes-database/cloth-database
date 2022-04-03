@@ -2,7 +2,7 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.AddressEntity;
-import se.iths.clothdatabase.exception.IncorrectZIPCodeException;
+import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
 import se.iths.clothdatabase.repository.AddressRepository;
 
 import javax.persistence.EntityNotFoundException;
