@@ -30,13 +30,13 @@ public class PaymentController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Optional<PaymentEntity>> findPaymentById(@PathVariable Long id) {
         Optional<PaymentEntity> foundPayment = paymentService.findPaymentById(id);
         return new ResponseEntity<>(foundPayment, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<Iterable<PaymentEntity>> findAllPayment() {
         Iterable<PaymentEntity> allPayment = paymentService.findAllPayments();
         return new ResponseEntity<>(allPayment, HttpStatus.OK);

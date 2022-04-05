@@ -18,7 +18,7 @@ public class UserDetailsController {
         this.userDetailsService = customerService;
     }
 
-    @PostMapping()
+    @PostMapping("/addUserDetails")
     public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails) {
         UserDetailsEntity createdUserDetails = userDetailsService.createUserDetail(userDetails);
         return new ResponseEntity<>(createdUserDetails, HttpStatus.CREATED);
