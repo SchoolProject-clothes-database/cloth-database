@@ -19,9 +19,16 @@ public class AddressExceptionsTest {
 
 
     @Test
-    void exceptionShouldThrowIfZipCodeLengthIsShorterThan5() throws IncorrectZIPCodeException {
+    void exceptionShouldThrowIfZipCodeLengthIsShorterThan5Digits(){
 
         assertThatThrownBy(() -> addressService.createAddress(new AddressEntity("street",222,22,"Sweden","province","city","2020")) )
+                .isInstanceOf(IncorrectZIPCodeException.class);
+    }
+
+    @Test
+    void exceptionShouldThrowIfZipCodeLengthIsLongerThan5Digits(){
+
+        assertThatThrownBy(() -> addressService.createAddress(new AddressEntity("street",123456,22,"Sweden","province","city","2020")) )
                 .isInstanceOf(IncorrectZIPCodeException.class);
     }
 }

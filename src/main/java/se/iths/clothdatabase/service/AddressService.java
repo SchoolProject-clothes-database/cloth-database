@@ -19,7 +19,7 @@ public class AddressService {
 
     public AddressEntity createAddress(AddressEntity addressEntity) throws IncorrectZIPCodeException {
         int length = String.valueOf(addressEntity.getZipCode()).length();
-        if(length < 5)
+        if(length != 5)
             throw new IncorrectZIPCodeException("ZIP code needs to be 5 digits");
 
 
