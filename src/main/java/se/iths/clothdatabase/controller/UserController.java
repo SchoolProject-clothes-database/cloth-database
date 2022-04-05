@@ -36,6 +36,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("addDetails/{userId}/{userDetailsId}")
+    public ResponseEntity<Void> addDetails(@PathVariable Long userId, @PathVariable Long userDetailsId){
+        userService.addDetails(userId, userDetailsId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("checkout/{userId}")
     public ResponseEntity<Void> checkOut(@PathVariable Long userId){
         userService.checkOut(userId);

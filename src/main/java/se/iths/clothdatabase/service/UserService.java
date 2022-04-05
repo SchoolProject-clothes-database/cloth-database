@@ -2,14 +2,8 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.iths.clothdatabase.entity.PaymentEntity;
-import se.iths.clothdatabase.entity.ProductEntity;
-import se.iths.clothdatabase.entity.RoleEntity;
-import se.iths.clothdatabase.entity.UserEntity;
-import se.iths.clothdatabase.repository.PaymentRepository;
-import se.iths.clothdatabase.repository.ProductRepository;
-import se.iths.clothdatabase.repository.RoleRepository;
-import se.iths.clothdatabase.repository.UserRepository;
+import se.iths.clothdatabase.entity.*;
+import se.iths.clothdatabase.repository.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -23,13 +17,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ProductRepository productRepository;
     private final PaymentRepository paymentRepository;
+    private final UserDetailsRepository userDetailsRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository, UserDetailsRepository userDetailsRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.productRepository = productRepository;
         this.paymentRepository = paymentRepository;
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     public UserEntity createUser(UserEntity userEntity) {
@@ -46,10 +42,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addToPaymentOption(Long userId, Long paymentId){
+    public void addPaymentOption(Long userId, Long paymentId){
         PaymentEntity paymentEntity = paymentRepository.findById(paymentId).orElseThrow();
         UserEntity user = userRepository.findById(userId).orElseThrow();
         user.addPaymentOption(paymentEntity);
+        userRepository.save(user);
+    }
+
+    public void addDetails(Long userId, Long userDetailsId){
+        UserDetailsEntity userDetailsEntity = userDetailsRepository.findById(userDetailsId).orElseThrow();
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.addDetails(userDetailsEntity);
         userRepository.save(user);
     }
 
