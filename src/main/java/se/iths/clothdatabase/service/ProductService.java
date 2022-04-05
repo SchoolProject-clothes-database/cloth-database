@@ -1,7 +1,9 @@
 package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
+import se.iths.clothdatabase.entity.CategoryEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
+import se.iths.clothdatabase.repository.CategoryRepository;
 import se.iths.clothdatabase.repository.ProductRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,12 +13,16 @@ import java.util.Optional;
 public class ProductService {
 
     ProductRepository productRepository;
+    CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
-    public ProductEntity createProduct(ProductEntity productEntity) {
+    public ProductEntity createProduct(ProductEntity productEntity, Long categoryId) {
+        CategoryEntity categoryToAdd = categoryRepository.findById(categoryId).orElseThrow(EntityNotFoundException::new);
+        productEntity.addCategory(categoryToAdd);
         return productRepository.save(productEntity);
     }
 
@@ -34,10 +40,9 @@ public class ProductService {
     }
 
     public ProductEntity updateProduct(Long id, ProductEntity productEntity) {
-        ProductEntity foundProduct = productRepository.findById(id).orElseThrow();
+        ProductEntity foundProduct = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundProduct.setProductName(productEntity.getProductName());
         foundProduct.setPrice(productEntity.getPrice());
-        foundProduct.setQuantity(productEntity.getQuantity());
 
         return productRepository.save(productEntity);
     }

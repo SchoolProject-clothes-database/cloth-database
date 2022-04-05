@@ -26,7 +26,10 @@ public class UserDetailsEntity {
     public UserDetailsEntity() {
     }
 
-
+    public void addAddress(AddressEntity addressEntity){
+        setAddress(addressEntity);
+        address.getUserDetails().add(this);
+    }
     public Long getId() {
         return id;
     }

@@ -24,6 +24,30 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    @PatchMapping("addToCart/{userId}/{productId}")
+    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId){
+        userService.addToCart(userId, productId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("addPayment/{userId}/{paymentId}")
+    public ResponseEntity<Void> addPayment(@PathVariable Long userId, @PathVariable Long paymentId){
+        userService.addPaymentOption(userId, paymentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("addDetails/{userId}/{userDetailsId}")
+    public ResponseEntity<Void> addDetails(@PathVariable Long userId, @PathVariable Long userDetailsId){
+        userService.addDetails(userId, userDetailsId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("checkout/{userId}")
+    public ResponseEntity<Void> checkOut(@PathVariable Long userId){
+        userService.checkOut(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

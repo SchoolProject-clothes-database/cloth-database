@@ -1,5 +1,7 @@
 package se.iths.clothdatabase.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,14 @@ public class CategoryEntity {
     public void addUserDetails(ProductEntity product) {
         products.add(product);
         product.setCategory(this);
+    }
+
+    public CategoryEntity(String categoryName, String type) {
+        this.categoryName = categoryName;
+        this.type = type;
+    }
+
+    public CategoryEntity() {
     }
 
     public Long getId() {
@@ -44,6 +54,7 @@ public class CategoryEntity {
         this.type = type;
     }
 
+    @JsonIgnore
     public List<ProductEntity> getProducts() {
         return products;
     }
