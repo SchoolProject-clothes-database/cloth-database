@@ -34,7 +34,7 @@ public class CategoryService {
     }
 
     public CategoryEntity updateCategory(Long id, CategoryEntity categoryEntity) {
-        CategoryEntity foundCategory = categoryRepository.findById(id).orElseThrow();
+        CategoryEntity foundCategory = categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundCategory.setCategoryName(foundCategory.getCategoryName());
         foundCategory.setType(foundCategory.getType());
 

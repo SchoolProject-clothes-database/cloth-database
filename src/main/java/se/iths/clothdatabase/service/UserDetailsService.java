@@ -40,7 +40,7 @@ public class UserDetailsService {
     }
 
     public UserDetailsEntity updateUserDetails(Long id, UserDetailsEntity userDetailsEntity) {
-        UserDetailsEntity foundUserDetails = userDetailsRepository.findById(id).orElseThrow();
+        UserDetailsEntity foundUserDetails = userDetailsRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundUserDetails.setFirstName(userDetailsEntity.getFirstName());
         foundUserDetails.setLastName(userDetailsEntity.getLastName());
         foundUserDetails.setAddress(userDetailsEntity.getAddress());

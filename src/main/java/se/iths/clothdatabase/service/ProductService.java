@@ -21,7 +21,7 @@ public class ProductService {
     }
 
     public ProductEntity createProduct(ProductEntity productEntity, Long categoryId) {
-        CategoryEntity categoryToAdd = categoryRepository.findById(categoryId).orElseThrow();
+        CategoryEntity categoryToAdd = categoryRepository.findById(categoryId).orElseThrow(EntityNotFoundException::new);
         productEntity.addCategory(categoryToAdd);
         return productRepository.save(productEntity);
     }
@@ -40,7 +40,7 @@ public class ProductService {
     }
 
     public ProductEntity updateProduct(Long id, ProductEntity productEntity) {
-        ProductEntity foundProduct = productRepository.findById(id).orElseThrow();
+        ProductEntity foundProduct = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundProduct.setProductName(productEntity.getProductName());
         foundProduct.setPrice(productEntity.getPrice());
 

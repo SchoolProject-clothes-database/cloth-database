@@ -36,22 +36,22 @@ public class UserService {
     }
 
     public void addToCart(Long userId, Long productId){
-        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow();
-        UserEntity user = userRepository.findById(userId).orElseThrow();
+        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow(EntityNotFoundException::new);
+        UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         user.addToCart(productToAdd);
         userRepository.save(user);
     }
 
     public void addPaymentOption(Long userId, Long paymentId){
-        PaymentEntity paymentEntity = paymentRepository.findById(paymentId).orElseThrow();
-        UserEntity user = userRepository.findById(userId).orElseThrow();
+        PaymentEntity paymentEntity = paymentRepository.findById(paymentId).orElseThrow(EntityNotFoundException::new);
+        UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         user.addPaymentOption(paymentEntity);
         userRepository.save(user);
     }
 
     public void addDetails(Long userId, Long userDetailsId){
-        UserDetailsEntity userDetailsEntity = userDetailsRepository.findById(userDetailsId).orElseThrow();
-        UserEntity user = userRepository.findById(userId).orElseThrow();
+        UserDetailsEntity userDetailsEntity = userDetailsRepository.findById(userDetailsId).orElseThrow(EntityNotFoundException::new);
+        UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         user.addDetails(userDetailsEntity);
         userRepository.save(user);
     }
@@ -81,7 +81,7 @@ public class UserService {
     }
 
     public UserEntity updateUser(Long id, UserEntity userEntity) {
-        UserEntity foundUser = userRepository.findById(id).orElseThrow();
+        UserEntity foundUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundUser.setUsername(userEntity.getUsername());
         return userRepository.save(userEntity);
     }
