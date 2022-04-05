@@ -18,9 +18,9 @@ public class UserDetailsController {
         this.userDetailsService = customerService;
     }
 
-    @PostMapping("/addUserDetails")
-    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails) {
-        UserDetailsEntity createdUserDetails = userDetailsService.createUserDetail(userDetails);
+    @PostMapping("/addUserDetails/{addressId}")
+    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails, @PathVariable Long addressId) {
+        UserDetailsEntity createdUserDetails = userDetailsService.createUserDetail(userDetails, addressId);
         return new ResponseEntity<>(createdUserDetails, HttpStatus.CREATED);
     }
 
