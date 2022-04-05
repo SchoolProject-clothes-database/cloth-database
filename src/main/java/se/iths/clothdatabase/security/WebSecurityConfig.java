@@ -28,9 +28,9 @@ public class WebSecurityConfig {
                .authorizeRequests()
                .antMatchers("/users/signup").permitAll()
                .antMatchers("/home", "/", "/application",
-                       "/users/update/",
-                       "/users/find/",
-                       "/users/findAll/",
+                       "users/update/",
+                       "users/find/",
+                       "users/findAll/",
                        "users/addToCart/",
                        "users/addPayment/",
                        "users/checkout/",
@@ -42,6 +42,7 @@ public class WebSecurityConfig {
                        "payment/update/",
                        "payment/find/",
                        "payment/all/",
+                       "payment/createPayment/",
                        "category/find/",
                        "category/findAll/",
                        "address/update/",
