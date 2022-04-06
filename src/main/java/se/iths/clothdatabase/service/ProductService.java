@@ -3,7 +3,7 @@ package se.iths.clothdatabase.service;
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.CategoryEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
-import se.iths.clothdatabase.exception.product.PriceIsMoreThanZeroException;
+import se.iths.clothdatabase.exception.product.PriceIsLessThanZeroException;
 import se.iths.clothdatabase.repository.CategoryRepository;
 import se.iths.clothdatabase.repository.ProductRepository;
 
@@ -21,9 +21,9 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    public ProductEntity createProduct(ProductEntity productEntity, Long categoryId) throws PriceIsMoreThanZeroException {
+    public ProductEntity createProduct(ProductEntity productEntity, Long categoryId) throws PriceIsLessThanZeroException {
         if(productEntity.getPrice() < 0)
-            throw new PriceIsMoreThanZeroException("Price can't be less than 0");
+            throw new PriceIsLessThanZeroException("Price can't be less than 0");
 
         CategoryEntity categoryToAdd = categoryRepository.findById(categoryId).orElseThrow();
         productEntity.addCategory(categoryToAdd);

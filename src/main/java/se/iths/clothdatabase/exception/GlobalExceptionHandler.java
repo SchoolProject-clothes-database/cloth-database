@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
-import se.iths.clothdatabase.exception.product.PriceIsMoreThanZeroException;
+import se.iths.clothdatabase.exception.product.PriceIsLessThanZeroException;
 import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
 import se.iths.clothdatabase.exception.user.LessThanThreeCharacterException;
 import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
@@ -48,8 +48,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage,exception));
     }
 
-    @ExceptionHandler({PriceIsMoreThanZeroException.class})
-    public ResponseEntity<Object> priceIsMoreThanZeroException (PriceIsMoreThanZeroException exception){
+    @ExceptionHandler({PriceIsLessThanZeroException.class})
+    public ResponseEntity<Object> priceIsMoreThanZeroException (PriceIsLessThanZeroException exception){
         logger.info(exception.getClass().getName());
         String errorMessage = "Price can't be less than 0";
 
