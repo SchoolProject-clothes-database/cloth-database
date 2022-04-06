@@ -36,7 +36,7 @@ public class ProductController {
         return new ResponseEntity<>(foundProduct, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<Iterable<ProductEntity>> findAllProduct() {
         Iterable<ProductEntity> allProduct = productService.findAllProducts();
         return new ResponseEntity<>(allProduct, HttpStatus.OK);

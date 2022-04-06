@@ -36,7 +36,7 @@ public class AddressController {
         return new ResponseEntity<>(foundAddress, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/findAll")
     public ResponseEntity<Iterable<AddressEntity>> findAllAddress() {
         Iterable<AddressEntity> allAddress = addressService.findAllAddress();
         return new ResponseEntity<>(allAddress, HttpStatus.OK);
