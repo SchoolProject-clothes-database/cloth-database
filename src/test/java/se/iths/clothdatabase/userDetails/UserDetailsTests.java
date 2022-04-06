@@ -23,7 +23,7 @@ public class UserDetailsTests {
     @Test
     void userDetailEntityShouldBeConnectedToAnAddress(){
         AddressEntity address = new AddressEntity("street",12345,20,"country","province","city","123123123");
-        UserDetailsEntity userDetailsEntity = new UserDetailsEntity("firstName","lastName","email@email.se");
+        UserDetailsEntity userDetailsEntity = new UserDetailsEntity("firstName","lastName",12,"email@email.se");
 
         userDetailsEntity.addAddress(address);
 
