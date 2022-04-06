@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.AddressEntity;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
 import se.iths.clothdatabase.repository.AddressRepository;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 import se.iths.clothdatabase.repository.UserDetailsRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,9 +22,14 @@ public class UserDetailsService {
         this.addressRepository = addressRepository;
     }
 
-    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity, Long addressId) {
+    public UserDetailsEntity createUserDetail(UserDetailsEntity userDetailsEntity, Long addressId) throws YoungerThan15Exception, InvalidEmailException {
         AddressEntity addressEntity = addressRepository.findById(addressId).orElseThrow(EntityNotFoundException::new);
         userDetailsEntity.addAddress(addressEntity);
+
+        if(userDetailsEntity.getAge() < 15)
+            throw new YoungerThan15Exception("You need to be older than 15");
+        if(!userDetailsEntity.emailCheck(userDetailsEntity.getEmail()))
+            throw new InvalidEmailException("Incorrect Format");
         return userDetailsRepository.save(userDetailsEntity);
     }
 

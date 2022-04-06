@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserDetailsEntity;
+import se.iths.clothdatabase.exception.userDetails.InvalidEmailException;
+import se.iths.clothdatabase.exception.userDetails.YoungerThan15Exception;
 import se.iths.clothdatabase.service.UserDetailsService;
 
 import java.util.Optional;
@@ -19,7 +21,7 @@ public class UserDetailsController {
     }
 
     @PostMapping("/addUserDetails/{addressId}")
-    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails, @PathVariable Long addressId) {
+    public ResponseEntity<UserDetailsEntity> createUserDetails(@RequestBody UserDetailsEntity userDetails, @PathVariable Long addressId) throws YoungerThan15Exception, InvalidEmailException {
         UserDetailsEntity createdUserDetails = userDetailsService.createUserDetail(userDetails, addressId);
         return new ResponseEntity<>(createdUserDetails, HttpStatus.CREATED);
     }

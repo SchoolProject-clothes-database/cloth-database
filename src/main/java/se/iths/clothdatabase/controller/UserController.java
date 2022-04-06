@@ -4,8 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.user.LessThanThreeCharacterException;
+import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
 import se.iths.clothdatabase.service.UserService;
-
+import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
 import java.util.Optional;
 
 @RestController
@@ -19,13 +21,13 @@ public class UserController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) throws LessThanThreeCharacterException {
         UserEntity createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @PatchMapping("addToCart/{userId}/{productId}")
-    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId){
+    public ResponseEntity<Void> addToCart(@PathVariable Long userId, @PathVariable Long productId) throws ProductIsNotInStockException {
         userService.addToCart(userId, productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -43,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("checkout/{userId}")
-    public ResponseEntity<Void> checkOut(@PathVariable Long userId){
+    public ResponseEntity<Void> checkOut(@PathVariable Long userId) throws NotEnoughMoneyException {
         userService.checkOut(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
