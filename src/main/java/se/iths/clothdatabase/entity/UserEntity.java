@@ -96,6 +96,7 @@ public class UserEntity {
         this.paymentEntity = paymentEntity;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
