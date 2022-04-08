@@ -36,7 +36,7 @@ public class PaymentController {
         return new ResponseEntity<>(foundPayment, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<Iterable<PaymentEntity>> findAllPayment() {
         Iterable<PaymentEntity> allPayment = paymentService.findAllPayments();
         return new ResponseEntity<>(allPayment, HttpStatus.OK);
