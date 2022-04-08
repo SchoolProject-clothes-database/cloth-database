@@ -19,7 +19,7 @@ public class AddressEntity {
     private String province;
     private String city;
     private String phoneNumber;
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserDetailsEntity> userDetails = new ArrayList<>();
 
     public AddressEntity(String street, int zipCode, int houseNumber, String country, String province, String city, String phoneNumber) {

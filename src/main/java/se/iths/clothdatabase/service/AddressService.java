@@ -2,6 +2,7 @@ package se.iths.clothdatabase.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.AddressEntity;
+import se.iths.clothdatabase.exception.address.IncorrectZIPCodeException;
 import se.iths.clothdatabase.repository.AddressRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +17,12 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public AddressEntity createAddress(AddressEntity addressEntity) {
+    public AddressEntity createAddress(AddressEntity addressEntity) throws IncorrectZIPCodeException {
+        int length = String.valueOf(addressEntity.getZipCode()).length();
+        if(length != 5)
+            throw new IncorrectZIPCodeException("ZIP code needs to be 5 digits");
+
+
         return addressRepository.save(addressEntity);
     }
 

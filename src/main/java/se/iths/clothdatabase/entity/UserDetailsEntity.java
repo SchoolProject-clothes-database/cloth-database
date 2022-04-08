@@ -1,6 +1,8 @@
 package se.iths.clothdatabase.entity;
 
 import javax.persistence.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 public class UserDetailsEntity {
@@ -9,6 +11,7 @@ public class UserDetailsEntity {
     private Long id;
     private String firstName;
     private String lastName;
+    private int age;
     private String email;
     @ManyToOne
     private AddressEntity address;
@@ -17,9 +20,10 @@ public class UserDetailsEntity {
             mappedBy = "userDetail")
     private UserEntity user;
 
-    public UserDetailsEntity(String firstName, String lastName, String email) {
+    public UserDetailsEntity(String firstName, String lastName,int age, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
         this.email = email;
     }
 
@@ -30,6 +34,22 @@ public class UserDetailsEntity {
         setAddress(addressEntity);
         address.getUserDetails().add(this);
     }
+    public boolean emailCheck(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public Long getId() {
         return id;
     }

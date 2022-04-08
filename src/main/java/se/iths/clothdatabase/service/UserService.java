@@ -6,6 +6,17 @@ import se.iths.clothdatabase.entity.*;
 import se.iths.clothdatabase.jms.MessageObject;
 import se.iths.clothdatabase.jms.Sender;
 import se.iths.clothdatabase.repository.*;
+import se.iths.clothdatabase.entity.PaymentEntity;
+import se.iths.clothdatabase.entity.ProductEntity;
+import se.iths.clothdatabase.entity.RoleEntity;
+import se.iths.clothdatabase.entity.UserEntity;
+import se.iths.clothdatabase.exception.user.LessThanThreeCharacterException;
+import se.iths.clothdatabase.exception.user.NotEnoughMoneyException;
+import se.iths.clothdatabase.exception.product.ProductIsNotInStockException;
+import se.iths.clothdatabase.repository.PaymentRepository;
+import se.iths.clothdatabase.repository.ProductRepository;
+import se.iths.clothdatabase.repository.RoleRepository;
+import se.iths.clothdatabase.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -33,15 +44,18 @@ public class UserService {
         this.userDetailsRepository = userDetailsRepository;
     }
 
-    public UserEntity createUser(UserEntity userEntity) {
+    public UserEntity createUser(UserEntity userEntity) throws LessThanThreeCharacterException {
+        if(userEntity.getUsername().length() < 3 || userEntity.getPassword().length() < 3)
+            throw new LessThanThreeCharacterException("Needs to be longer than 3 characters");
+
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         RoleEntity roleToAdd = roleRepository.findByRole("ROLE_USER");
         userEntity.addRoles(roleToAdd);
         return userRepository.save(userEntity);
     }
 
-    public void addToCart(Long userId, Long productId){
-        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow(EntityNotFoundException::new);
+    public void addToCart(Long userId, Long productId) throws ProductIsNotInStockException{
+        ProductEntity productToAdd = productRepository.findById(productId).orElseThrow(() -> new ProductIsNotInStockException("Out of stock"));
         UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         user.addToCart(productToAdd);
         userRepository.save(user);
@@ -62,7 +76,7 @@ public class UserService {
     }
 
     @Transactional
-    public void checkOut(Long userId){
+    public void checkOut(Long userId) throws NotEnoughMoneyException {
         UserEntity user = userRepository.findById(userId).orElseThrow();
 
         double balance = user.getPaymentEntity().getAmount();
@@ -71,6 +85,9 @@ public class UserService {
         productRepository.purchasedProduct(user.getId());
         userRepository.save(user);
         sender.sendMessage("Order Confirmation");
+        customexceptions#10
+        if(user.getPaymentEntity().getAmount()< 0)
+           throw new NotEnoughMoneyException("Not enough money");
     }
 
     public void deleteUser(Long id) {
