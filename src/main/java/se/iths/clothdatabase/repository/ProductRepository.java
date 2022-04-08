@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import se.iths.clothdatabase.entity.ProductEntity;
 
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<ProductEntity, Long> {

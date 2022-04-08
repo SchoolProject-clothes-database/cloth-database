@@ -38,7 +38,7 @@ public class UserDetailsController {
         return new ResponseEntity<>(foundUserDetails, HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/findAll")
     public ResponseEntity<Iterable<UserDetailsEntity>> findAllUserDetails() {
         Iterable<UserDetailsEntity> allUserDetails = userDetailsService.findAllUserDetails();
         return new ResponseEntity<>(allUserDetails, HttpStatus.OK);
