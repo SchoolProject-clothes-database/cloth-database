@@ -3,6 +3,8 @@ package se.iths.clothdatabase.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.*;
+import se.iths.clothdatabase.jms.MessageObject;
+import se.iths.clothdatabase.jms.Sender;
 import se.iths.clothdatabase.repository.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private final Sender sender;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -19,7 +22,9 @@ public class UserService {
     private final PaymentRepository paymentRepository;
     private final UserDetailsRepository userDetailsRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository, UserDetailsRepository userDetailsRepository) {
+
+    public UserService(Sender sender, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository, UserDetailsRepository userDetailsRepository) {
+        this.sender = sender;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -65,6 +70,7 @@ public class UserService {
         user.getPaymentEntity().setAmount(balance);
         productRepository.purchasedProduct(user.getId());
         userRepository.save(user);
+        sender.sendMessage("Order Confirmation");
     }
 
     public void deleteUser(Long id) {
