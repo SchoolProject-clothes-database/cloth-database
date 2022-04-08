@@ -85,7 +85,6 @@ public class UserService {
         productRepository.purchasedProduct(user.getId());
         userRepository.save(user);
         sender.sendMessage("Order Confirmation");
-        customexceptions#10
         if(user.getPaymentEntity().getAmount()< 0)
            throw new NotEnoughMoneyException("Not enough money");
     }
