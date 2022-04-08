@@ -34,7 +34,7 @@ public class PaymentService {
     }
 
     public PaymentEntity updatePayment(Long id, PaymentEntity paymentEntity) {
-        PaymentEntity foundPayment = paymentRepository.findById(id).orElseThrow();
+        PaymentEntity foundPayment = paymentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundPayment.setAmount(paymentEntity.getAmount());
 
         return paymentRepository.save(paymentEntity);

@@ -34,7 +34,7 @@ public class AddressService {
     }
 
     public AddressEntity updateAddress(Long id, AddressEntity addressEntity) {
-        AddressEntity foundAddress = addressRepository.findById(id).orElseThrow();
+        AddressEntity foundAddress = addressRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         foundAddress.setStreet(addressEntity.getStreet());
         foundAddress.setZipCode(addressEntity.getZipCode());
         foundAddress.setHouseNumber(addressEntity.getHouseNumber());

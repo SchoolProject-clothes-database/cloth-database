@@ -32,7 +32,13 @@ public class UserController {
 
     @PatchMapping("addPayment/{userId}/{paymentId}")
     public ResponseEntity<Void> addPayment(@PathVariable Long userId, @PathVariable Long paymentId){
-        userService.addToPaymentOption(userId, paymentId);
+        userService.addPaymentOption(userId, paymentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("addDetails/{userId}/{userDetailsId}")
+    public ResponseEntity<Void> addDetails(@PathVariable Long userId, @PathVariable Long userDetailsId){
+        userService.addDetails(userId, userDetailsId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

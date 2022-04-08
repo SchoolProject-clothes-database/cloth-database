@@ -18,7 +18,7 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @PostMapping()
+    @PostMapping("addAddress")
     public ResponseEntity<AddressEntity> createAddress(@RequestBody AddressEntity address) {
         AddressEntity createdAddress = addressService.createAddress(address);
         return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
@@ -30,7 +30,7 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Optional<AddressEntity>> findAddressById(@PathVariable Long id) {
         Optional<AddressEntity> foundAddress = addressService.findAddressById(id);
         return new ResponseEntity<>(foundAddress, HttpStatus.OK);

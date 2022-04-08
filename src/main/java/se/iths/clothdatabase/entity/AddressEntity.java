@@ -32,11 +32,6 @@ public class AddressEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public void addAddress(UserDetailsEntity userDetailsEntity){
-        userDetails.add(userDetailsEntity);
-        userDetailsEntity.setAddress(this);
-    }
-
     public AddressEntity() {
     }
 
