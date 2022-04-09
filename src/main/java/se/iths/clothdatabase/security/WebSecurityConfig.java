@@ -38,7 +38,6 @@ public class WebSecurityConfig {
                        "userDetails/addUserDetails/",
                        "product/findAll",
                        "product/find/",
-                       "payment/update/",
                        "payment/find/",
                        "payment/findAll/",
                        "payment/createPayment/",
