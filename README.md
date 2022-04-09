@@ -129,8 +129,7 @@ CATEGORY:
 PRODUCT:
 `{
 "productName":"productName",
-"price":20,
-"quantity":1
+"price":20
 }`
 
 
