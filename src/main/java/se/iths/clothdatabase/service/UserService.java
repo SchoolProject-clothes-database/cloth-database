@@ -3,8 +3,7 @@ package se.iths.clothdatabase.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.clothdatabase.entity.*;
-import se.iths.clothdatabase.jms.MessageObject;
-import se.iths.clothdatabase.jms.Sender;
+import se.iths.clothdatabase.rabbitmq.MessageSender;
 import se.iths.clothdatabase.repository.*;
 import se.iths.clothdatabase.entity.PaymentEntity;
 import se.iths.clothdatabase.entity.ProductEntity;
@@ -25,7 +24,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final Sender sender;
+    private final MessageSender messageSender;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -34,8 +33,8 @@ public class UserService {
     private final UserDetailsRepository userDetailsRepository;
 
 
-    public UserService(Sender sender, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository, UserDetailsRepository userDetailsRepository) {
-        this.sender = sender;
+    public UserService(MessageSender messageSender, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, ProductRepository productRepository, PaymentRepository paymentRepository, UserDetailsRepository userDetailsRepository) {
+        this.messageSender = messageSender;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -84,7 +83,7 @@ public class UserService {
         user.getPaymentEntity().setAmount(balance);
         productRepository.purchasedProduct(user.getId());
         userRepository.save(user);
-        sender.sendMessage("Order Confirmation");
+        messageSender.sendMessage("Order Confirmation");
         if(user.getPaymentEntity().getAmount()< 0)
            throw new NotEnoughMoneyException("Not enough money");
     }
